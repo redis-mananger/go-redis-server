@@ -3,8 +3,6 @@ package go_redis_server
 import (
     "github.com/redis-manager/go-redis-server/config"
     "net/url"
-    "path/filepath"
-    "os"
     "github.com/redis-manager/go-redis-server/server"
     "net/http"
     "io/ioutil"
@@ -54,29 +52,23 @@ func buildHttpServerHandler() (err error) {
         return err
     }
 
-    var root string
-    if !debug {
-        root, err = filepath.Abs(filepath.Dir(os.Args[0]))
-        if err != nil {
-            return err
-        }
-    }else{
-        root = os.Getenv("GOPATH")+"/src/github.com/lwl1989/go-redis-manager"
-    }
-    loadPath(root+"/config/config.json")
+    configFile := GetDefaultConfigFile()
+    appRoot := GetAppPath()
+    loadPath(configFile)
     //fmt.Println(root)
     message := &server.Message{
         Url: urlStr,
-        Root: root,
-        FileHandler:http.FileServer(http.Dir(root+"/resources/app")),
+        Root: appRoot,
+        FileHandler:http.FileServer(http.Dir(appRoot+"/resources/app")),
     }
     //fmt.Println(urlObj.Port())
     //+urlObj.Port()
-    server.Init()
+    //server.Init()
+
     err = http.ListenAndServe(":"+urlObj.Port(), message)
     if err != nil {
-        fmt.Println(err)
         return err
     }
     return nil
 }
+
