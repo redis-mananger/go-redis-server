@@ -34,6 +34,7 @@ func (message *Message) ServeHTTP(res http.ResponseWriter,req *http.Request) {
             req.RequestURI = "/index.html"
         }
 
+
         //show all keys
         if req.RequestURI == "/all" {
             _, err := template.ParseFiles(message.Root+"/resources/app/index.html")

@@ -10,7 +10,7 @@ type RedisConfig struct {
     Host string `json:"host,omitempty"`
     Db   int    `json:"db,omitempty"`
     Pw   string `json:"pw,omitempty"`
-    Hval string `json:"hval"`
+    Hval string `json:"hval,omitempty"`
 }
 
 

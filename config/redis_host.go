@@ -15,11 +15,6 @@ type IRedisHosts interface {
     GetAllServer()  map[string]*RedisConfig
 }
 
-type HostConfig struct {
-    Host string `json:"host,omitempty"`
-    Port int    `json:"port,omitempty"`
-}
-
 var redisHosts RedisHostMap
 var redisHostOnce sync.Once
 
@@ -28,6 +23,7 @@ func GetRedisHosts() IRedisHosts {
         if redisHosts == nil {
             redisHosts = make(RedisHostMap)
         }
+
     })
 
     return redisHosts
